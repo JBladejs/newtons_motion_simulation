@@ -22,7 +22,6 @@ class NewtonGame : Game() {
     }
 
     override fun dispose() {
-        screen = null
         screen.dispose()
         renderer.dispose()
     }
