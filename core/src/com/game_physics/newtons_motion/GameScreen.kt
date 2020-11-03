@@ -6,11 +6,11 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 
 class GameScreen(private val game: NewtonGame) : Screen {
-    private var dt = 0.0f
+    private var dt = 2f   //Prędkość gry
     private val movingObject = MovingObject(5.0f, Color(255, 0, 0), 50f, 50f)
 
     private fun update() {
-        dt = 0.5f            //Prędkość gry
+        //dt = 0.5f
         movingObject.move(dt)
     }
 
