@@ -6,9 +6,14 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 
 class GameScreen(private val game: NewtonGame) : Screen {
-    private val dt = 0.0f
+    private var dt = 0.0f
+
+    private fun update() {
+        dt += 1.0f
+    }
 
     override fun render(delta: Float) {
+        update()
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
