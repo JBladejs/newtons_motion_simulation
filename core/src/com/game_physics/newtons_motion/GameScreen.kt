@@ -10,7 +10,7 @@ class GameScreen(private val game: NewtonGame) : Screen {
     private val movingObject = MovingObject(5.0f, Color(255, 0, 0), 50f, 50f)
 
     private fun update() {
-        dt = 0.5f           //Prędkość gry
+        dt = 0.5f            //Prędkość gry
         movingObject.move(dt)
     }
 
