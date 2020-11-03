@@ -20,6 +20,7 @@ class MovingObject(private val radius: Float, private val color: Color, private 
         vy -= grawitacja*dt
 
         //TODO wyciągnąć aktualne wartości ekranu żeby nie wpisywać ograniczeń na sztywno
+        //spoko, ja to zrobię -Alan
         if(x < 0 || x > 640){
             vx *= (-1+tarcie)
         }
