@@ -2,6 +2,7 @@ package com.game_physics.newtons_motion
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 
@@ -11,7 +12,11 @@ class GameScreen(private val game: NewtonGame) : Screen {
 
     private fun update() {
         movingObject.move(dt)
-
+        //TODO: Implement proper Input Processor
+        if (Gdx.input.isKeyPressed(W)) movingObject.vy += 0.4f
+        if (Gdx.input.isKeyJustPressed(S)) movingObject.vy -= 0.4f
+        if (Gdx.input.isKeyPressed(A)) movingObject.vx -= 0.4f
+        if (Gdx.input.isKeyJustPressed(D)) movingObject.vx += 0.4f
     }
 
     override fun render(delta: Float) {
