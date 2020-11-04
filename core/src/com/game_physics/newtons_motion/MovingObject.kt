@@ -34,14 +34,12 @@ class MovingObject(private val radius: Float, private val color: Color, private 
         }
     }
 
-    fun render(renderer: ShapeRenderer,thrown: Boolean) {
+    fun render(renderer: ShapeRenderer) {
         renderer.setColor(color)
         with(renderer) {
             begin()
             set(ShapeRenderer.ShapeType.Filled)
             circle(x, y, radius)
-            if(!thrown)
-                line(x,y,x+(vx*20),y+(vy*20))
             end()
         }
     }
