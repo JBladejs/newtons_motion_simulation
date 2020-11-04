@@ -7,7 +7,7 @@ val grawitacja = 0.03f
 val tarcie = 0.2f   //strata prędkości od odbicia się od ściany (procentowa 1 - 100%    0.5 - 50%)
 val opor = 0.01f    //opor powietrza zmniejszajacy stale predkosc pilki (procentowa)
 
-class MovingObject(private val radius: Float, private val color: Color, private var x: Float = 0.0f, private var y: Float = 0.0f, var vx: Float = 3.0f, var vy: Float = 3.0f) {
+class MovingObject(private val radius: Float, private val color: Color, private var x: Float = 0.0f, private var y: Float = 0.0f, var vx: Float = 0.0f, var vy: Float = 0.0f) {
     fun move(dt: Float) {
         println(vy)
         x += vx*dt
@@ -42,5 +42,12 @@ class MovingObject(private val radius: Float, private val color: Color, private 
             circle(x, y, radius)
             end()
         }
+    }
+
+    fun getX(): Float{
+        return x
+    }
+    fun getY(): Float{
+        return y
     }
 }
