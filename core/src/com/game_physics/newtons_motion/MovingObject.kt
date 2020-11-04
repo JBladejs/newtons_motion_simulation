@@ -21,10 +21,10 @@ class MovingObject(private val radius: Float, private val color: Color, private 
 
         //TODO wyciągnąć aktualne wartości ekranu żeby nie wpisywać ograniczeń na sztywno
         //spoko, ja to zrobię -Alan
-        if(x < 0 || x > 640){
+        if(x - radius < 0 || x + radius > 640){
             vx *= (-1+tarcie)
         }
-        if(y < 0 || y > 480){
+        if(y - radius < 0 || y + radius > 480){
             vy *= (-1+tarcie)
             vx *= (1-tarcie)
         }

@@ -7,18 +7,18 @@ import com.badlogic.gdx.graphics.GL20
 
 class GameScreen(private val game: NewtonGame) : Screen {
     private var dt = 2f   //Prędkość gry
-    private val movingObject = MovingObject(5.0f, Color(255, 0, 0), 50f, 50f)
+    private val movingObject = MovingObject(10.0f, Color(255, 0, 0), 50f, 50f)
 
     private fun update() {
-        //dt = 0.5f
         movingObject.move(dt)
+
     }
 
     override fun render(delta: Float) {
-        update()
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         movingObject.render(game.renderer)
+        update()
     }
 
     override fun resize(width: Int, height: Int) {}
