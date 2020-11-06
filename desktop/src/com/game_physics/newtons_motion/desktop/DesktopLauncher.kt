@@ -1,12 +1,19 @@
-package com.game_physics.newtons_motion.desktop;
+package com.game_physics.newtons_motion.desktop
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.game_physics.newtons_motion.NewtonGame;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.game_physics.newtons_motion.NewtonGame
 
-public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new NewtonGame(), config);
-	}
+object DesktopLauncher {
+    @JvmStatic
+    fun main(arg: Array<String>) {
+        val config = LwjglApplicationConfiguration()
+        with(config) {
+            title = "Newton's Law of Motion"
+            width = 640
+            height = 480
+            resizable = false
+            LwjglApplication(NewtonGame(), this)
+        }
+    }
 }
