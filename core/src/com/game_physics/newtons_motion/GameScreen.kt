@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.GL20
 
 class GameScreen(private val game: NewtonGame) : Screen {
     private var dt = 2f   //Prędkość gry
-    private val movingObject = MovingObject(10.0f, Color(255, 0, 0), 50f, 50f)
-    private val target = TargetZone(Color(255, 0, 0), RNG.nextX(50f), RNG.nextY(50f), 50f, 50f)
-    private val speed = 0.1f
+    private val movingObject = MovingObject(10.0f, Color(255, 0, 0), Color(0, 255, 0), 50f, 50f)
+    private val target = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
+    private val rotationSpeed = 2.5f
 
     private fun update() {
         movingObject.move(dt)
@@ -21,10 +21,10 @@ class GameScreen(private val game: NewtonGame) : Screen {
             movingObject.stop()
         }
 
-        if (Gdx.input.isKeyPressed(W)) movingObject.vy += speed
-        if (Gdx.input.isKeyPressed(S)) movingObject.vy -= speed
-        if (Gdx.input.isKeyPressed(A)) movingObject.vx -= speed
-        if (Gdx.input.isKeyPressed(D)) movingObject.vx += speed
+        if (Gdx.input.isKeyPressed(W)) movingObject.increaseSpeed()
+        if (Gdx.input.isKeyPressed(S)) movingObject.decreaseSpeed()
+        if (Gdx.input.isKeyPressed(A)) movingObject.rotation -= rotationSpeed
+        if (Gdx.input.isKeyPressed(D)) movingObject.rotation += rotationSpeed
     }
 
     override fun render(delta: Float) {

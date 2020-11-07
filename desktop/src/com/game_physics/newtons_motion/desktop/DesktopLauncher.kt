@@ -10,8 +10,8 @@ object DesktopLauncher {
         val config = LwjglApplicationConfiguration()
         with(config) {
             title = "Newton's Law of Motion"
-            width = 640
-            height = 480
+            width = 1280
+            height = 720
             resizable = false
             LwjglApplication(NewtonGame(), this)
         }
