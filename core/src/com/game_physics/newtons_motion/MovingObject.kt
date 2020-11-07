@@ -42,10 +42,8 @@ class MovingObject(private val radius: Float, private val color: Color, x: Float
     fun render(renderer: ShapeRenderer) {
         renderer.setColor(color)
         with(renderer) {
-            begin()
             set(ShapeRenderer.ShapeType.Filled)
             circle(x, y, radius)
-            end()
         }
     }
 }

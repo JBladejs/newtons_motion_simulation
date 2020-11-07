@@ -31,8 +31,12 @@ class GameScreen(private val game: NewtonGame) : Screen {
     override fun render(delta: Float) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        movingObject.render(game.renderer)
-        target.render(game.renderer)
+        with(game.renderer) {
+            begin()
+            movingObject.render(this)
+            target.render(this)
+            end()
+        }
         update()
     }
 

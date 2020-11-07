@@ -12,10 +12,8 @@ class TargetZone(var color: Color, var x: Float = 0.0f, var y: Float = 0.0f, var
     fun render(renderer: ShapeRenderer) {
         renderer.setColor(color)
         with(renderer) {
-            begin()
             set(ShapeRenderer.ShapeType.Line)
             rect(x,y,width,height)
-            end()
         }
     }
 }
