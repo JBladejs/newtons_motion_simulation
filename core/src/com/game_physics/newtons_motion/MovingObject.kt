@@ -1,5 +1,6 @@
 package com.game_physics.newtons_motion
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import javax.swing.DesktopManager
 
@@ -19,16 +20,14 @@ class MovingObject(private val radius: Float, private val color: Color, private 
         //grawitacja
         vy -= grawitacja*dt
 
-        //TODO wyciągnąć aktualne wartości ekranu żeby nie wpisywać ograniczeń na sztywno
-        //spoko, ja to zrobię -Alan
-        if (x - radius < 0 || x + radius > 640){
+        if (x - radius < 0 || x + radius > Gdx.graphics.width){
             x = if (x - radius < 0) radius
-            else 640 - radius
+            else Gdx.graphics.width - radius
             vx *= (-1+tarcie)
         }
-        if (y - radius < 0 || y + radius > 480){
+        if (y - radius < 0 || y + radius > Gdx.graphics.height){
             y = if (y - radius < 0) radius
-            else 480 - radius
+            else Gdx.graphics.height - radius
             vy *= (-1+tarcie)
             vx *= (1-tarcie)
         }
