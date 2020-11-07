@@ -3,9 +3,22 @@ package com.game_physics.newtons_motion
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
-class MovingObject(private val radius: Float, private val color: Color, x: Float = 0.0f, y: Float = 0.0f, var vx: Float = 0.0f, var vy: Float = 0.0f) {
+class MovingObject(val radius: Float, private val color: Color, x: Float = 0.0f, y: Float = 0.0f, vx: Float = 0.0f, vy: Float = 0.0f) {
+    private var stopped = false
+
+    var vx = vx
+        set(value) {
+            field = if (!stopped) value else field
+        }
+
+    var vy = vy
+        set(value) {
+            field = if (!stopped) value else field
+        }
+
     var x = x
         private set
+
     var y = y
         private set
 
@@ -16,15 +29,17 @@ class MovingObject(private val radius: Float, private val color: Color, x: Float
     }
 
     fun move(dt: Float) {
-        println(vy)
         x += vx * dt
-        y += vy * dt - 0.5f * gravity * dt * dt
+        y += vy * dt //- 0.5f * gravity * dt * dt
 
-        //opór powietrza
-        vx *= (1 - resistance)
-        vy *= (1 - resistance)
-        //grawitacja
-        vy -= gravity * dt
+
+        if (!stopped) {
+            //opór powietrza
+            vx *= (1 - resistance)
+            vy *= (1 - resistance)
+            //grawitacja
+            vy -= gravity * dt
+        }
 
         if (x - radius < 0 || x + radius > Gdx.graphics.width) {
             x = if (x - radius < 0) radius
@@ -37,6 +52,12 @@ class MovingObject(private val radius: Float, private val color: Color, x: Float
             vy *= (-1 + flexibility)
             vx *= (1 - flexibility)
         }
+    }
+
+    fun stop() {
+        vx = 0f
+        vy = 0f
+        stopped = true
     }
 
     fun render(renderer: ShapeRenderer) {
