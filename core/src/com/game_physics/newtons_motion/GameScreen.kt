@@ -16,8 +16,8 @@ class GameScreen(private val game: NewtonGame) : Screen {
             movingObject.move(dt)
 
         //wykrywanie kolizji centrum pilki z polem docelowym
-        if(movingObject.getX() > target.x && movingObject.getX() < target.x + target.width){
-            if(movingObject.getY() > target.y && movingObject.getY() < target.y + target.height){
+        if(movingObject.x > target.x && movingObject.x < target.x + target.width){
+            if(movingObject.y > target.y && movingObject.y < target.y + target.height){
                 target.changeColor(Color(0,255,0))
             }
             else
