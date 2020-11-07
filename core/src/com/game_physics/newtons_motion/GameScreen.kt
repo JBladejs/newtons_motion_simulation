@@ -10,7 +10,7 @@ import kotlin.random.Random
 class GameScreen(private val game: NewtonGame) : Screen {
     private var dt = 2f   //Prędkość gry
     private val movingObject = MovingObject(10.0f, Color(255, 0, 0), 50f, 50f)
-    private val target = TargetZone(Color(255,0,0), RNG.nextX(), RNG.nextY(), 50f,50f)
+    private val target = TargetZone(Color(255,0,0), RNG.nextX(50f), RNG.nextY(50f), 50f,50f)
     private val speed = 0.1f
 
     private fun update() {
