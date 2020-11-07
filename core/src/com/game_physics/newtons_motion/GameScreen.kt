@@ -1,26 +1,23 @@
 package com.game_physics.newtons_motion
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
-import kotlin.random.Random
 
 class GameScreen(private val game: NewtonGame) : Screen {
     private var dt = 2f   //Prędkość gry
     private val movingObject = MovingObject(10.0f, Color(255, 0, 0), 50f, 50f)
-    private val target = TargetZone(Color(255,0,0), RNG.nextX(50f), RNG.nextY(50f), 50f,50f)
+    private val target = TargetZone(Color(255, 0, 0), RNG.nextX(50f), RNG.nextY(50f), 50f, 50f)
     private val speed = 0.1f
 
     private fun update() {
-            movingObject.move(dt)
+        movingObject.move(dt)
 
         //wykrywanie kolizji centrum pilki z polem docelowym
         if (target.contains(movingObject.x, movingObject.y)) {
-            target.color = Color(0,255,0)
-        }
-        else target.color = Color(255,0,0)
+            target.color = Color(0, 255, 0)
+        } else target.color = Color(255, 0, 0)
 
         if (Gdx.input.isKeyPressed(W)) movingObject.vy += speed
         if (Gdx.input.isKeyPressed(S)) movingObject.vy -= speed

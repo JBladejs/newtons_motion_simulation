@@ -1,7 +1,5 @@
 package com.game_physics.newtons_motion
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-
 class Color(red: Int, green: Int, blue: Int) {
     val red = red.toFloat() / 255.0f
     val green = green.toFloat() / 255.0f
