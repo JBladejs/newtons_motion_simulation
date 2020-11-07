@@ -26,7 +26,6 @@ class GameScreen(private val game: NewtonGame) : Screen {
         else
             target.changeColor(Color(255,0,0))
 
-        //TODO: Implement proper Input Processor
         if (Gdx.input.isKeyPressed(W)) movingObject.vy += speed
         if (Gdx.input.isKeyPressed(S)) movingObject.vy -= speed
         if (Gdx.input.isKeyPressed(A)) movingObject.vx -= speed

@@ -15,14 +15,14 @@ class MovingObject(private val radius: Float, private val color: Color, x: Float
 
     fun move(dt: Float) {
         println(vy)
-        x += vx*dt
-        y += vy*dt
+        x += vx * dt
+        y += vy * dt - 0.5f * gravity * dt * dt
 
         //opór powietrza
         vx *= (1-resistance)
         vy *= (1-resistance)
         //grawitacja
-        vy -= gravity*dt
+        vy -= gravity * dt
 
         if (x - radius < 0 || x + radius > Gdx.graphics.width){
             x = if (x - radius < 0) radius
