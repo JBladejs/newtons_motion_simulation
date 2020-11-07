@@ -5,15 +5,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils.*
 
 class MovingObject(val radius: Float, private val color1: Color, private val color2: Color, x: Float = 0.0f, y: Float = 0.0f, private var vx: Float = 0.0f, private var vy: Float = 0.0f) {
-    private var stopped = false
-    var rotation = 0.0f
-        set(value) {
-            field = if (value > 360f) value - 360f else if (value < 0f) 360f - value else value
-        }
     var x = x
         private set
     var y = y
         private set
+    var rotation = 0.0f
+        set(value) {
+            var angle = value
+            while (angle > 360f) angle -= 360f
+            while (angle < 0f) angle += 360f
+            field = angle
+        }
+    var constantSpeed: Float? = null
+    private var stopped = false
 
     companion object {
         const val gravity = 0.03f
@@ -23,11 +27,15 @@ class MovingObject(val radius: Float, private val color1: Color, private val col
     }
 
     fun move(dt: Float) {
+        if (constantSpeed != null) {
+            vx = sin(rotation * PI / 180f) * constantSpeed!!
+            vy = cos(rotation * PI / 180f) * constantSpeed!!
+        }
+
         x += vx * dt
         y += vy * dt //- 0.5f * gravity * dt * dt
-        println("$x $y")
 
-        if (!stopped) {
+        if (!stopped && constantSpeed == null) {
             //opór powietrza
             vx *= (1 - resistance)
             vy *= (1 - resistance)
