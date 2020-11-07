@@ -3,15 +3,17 @@ package com.game_physics.newtons_motion
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
-const val gravity = 0.03f
-const val flexibility = 0.2f   //strata prędkości od odbicia się od ściany (procentowa 1 - 100%    0.5 - 50%)
-const val resistance = 0.01f    //opor powietrza zmniejszajacy stale predkosc pilki (procentowa)
-
 class MovingObject(private val radius: Float, private val color: Color, x: Float = 0.0f, y: Float = 0.0f, var vx: Float = 0.0f, var vy: Float = 0.0f) {
     var x = x
     private set
     var y = y
     private set
+
+    companion object {
+        const val gravity = 0.03f
+        const val flexibility = 0.2f   //strata prędkości od odbicia się od ściany (procentowa 1 - 100%    0.5 - 50%)
+        const val resistance = 0.01f
+    }
 
     fun move(dt: Float) {
         println(vy)
