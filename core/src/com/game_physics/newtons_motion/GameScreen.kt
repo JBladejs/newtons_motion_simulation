@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.math.MathUtils.*
+import kotlin.system.exitProcess
 
 
 class GameScreen(private val game: NewtonGame) : Screen {
@@ -14,25 +15,57 @@ class GameScreen(private val game: NewtonGame) : Screen {
     private val target = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
     private val rotationSpeed = 2.5f
 
+
+    //Boolean do wyłączania obiektów w grze
+    private var playerObjectHide: Boolean = false
+    private var followingObjectHide: Boolean = false
+    private var targetHide: Boolean = false
+
+
     init {
         followingObject.constantSpeed = 1f
     }
 
     private fun update() {
+
+        playerObject.stopped = playerObjectHide
+        followingObject.stopped = followingObjectHide
         playerObject.move(dt)
         followingObject.move(dt)
+
         //wykrywanie kolizji środka pilki z polem docelowym
-        if (target.contains(playerObject.x, playerObject.y)) {
+        if (target.contains(playerObject.x, playerObject.y) && !targetHide) {
             target.color = Color(0, 255, 0)
             playerObject.stop()
         }
         followingObject.rotation = 180f * atan2(playerObject.x - followingObject.x, playerObject.y - followingObject.y) / PI
-        println(followingObject.rotation)
+        //println(followingObject.rotation)
 
         if (Gdx.input.isKeyPressed(W)) playerObject.increaseSpeed()
         if (Gdx.input.isKeyPressed(S)) playerObject.decreaseSpeed()
         if (Gdx.input.isKeyPressed(A)) playerObject.rotation -= rotationSpeed
         if (Gdx.input.isKeyPressed(D)) playerObject.rotation += rotationSpeed
+
+        if (Gdx.input.isKeyJustPressed(NUMPAD_1))
+        {
+            playerObjectHide = !playerObjectHide
+            playerObject.stop()
+        }
+
+        if (Gdx.input.isKeyJustPressed(NUMPAD_2))
+        {
+            followingObjectHide = !followingObjectHide
+            followingObject.stop()
+        }
+
+        if (Gdx.input.isKeyJustPressed(NUMPAD_3))
+        {
+            targetHide = !targetHide
+        }
+
+
+        if (Gdx.input.isKeyJustPressed(ESCAPE))
+            exitProcess(1)
     }
 
     override fun render(delta: Float) {
@@ -40,9 +73,9 @@ class GameScreen(private val game: NewtonGame) : Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         with(game.renderer) {
             begin()
-            target.render(this)
-            followingObject.render(this)
-            playerObject.render(this)
+            if(!targetHide) target.render(this)
+            if(!followingObjectHide)followingObject.render(this)
+            if(!playerObjectHide) playerObject.render(this)
             end()
         }
         update()

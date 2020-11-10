@@ -17,7 +17,7 @@ class MovingObject(val radius: Float, private val color1: Color, private val col
             field = angle
         }
     var constantSpeed: Float? = null
-    private var stopped = false
+    var stopped = false
 
     companion object {
         const val gravity = 0.03f
