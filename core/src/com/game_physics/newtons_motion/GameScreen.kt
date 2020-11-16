@@ -49,7 +49,8 @@ class GameScreen(private val game: NewtonGame) : Screen {
         if (Gdx.input.isKeyJustPressed(NUMPAD_1))
         {
             playerObjectHide = !playerObjectHide
-            playerObject.stop()
+            playerObject.stopped =playerObjectHide
+            //playerObject.stop()
         }
 
         if (Gdx.input.isKeyJustPressed(NUMPAD_2))
@@ -75,7 +76,7 @@ class GameScreen(private val game: NewtonGame) : Screen {
             begin()
             if(!targetHide) target.render(this)
             if(!followingObjectHide)followingObject.render(this)
-            if(!playerObjectHide) playerObject.render(this)
+            playerObject.render(this)
             end()
         }
         update()
