@@ -18,6 +18,7 @@ class MovingObject(val radius: Float, private val color1: Color, private val col
         }
     var constantSpeed: Float? = null
     var stopped = false
+    var airRes = true
 
     companion object {
         const val gravity = 0.03f
@@ -35,7 +36,7 @@ class MovingObject(val radius: Float, private val color1: Color, private val col
         x += vx * dt
         y += vy * dt //- 0.5f * gravity * dt * dt
 
-        if (!stopped && constantSpeed == null) {
+        if (!stopped && constantSpeed == null && airRes) {
             //opór powietrza
             vx *= (1 - resistance)
             vy *= (1 - resistance)

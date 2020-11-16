@@ -50,6 +50,7 @@ class GameScreen(private val game: NewtonGame) : Screen {
         {
             playerObjectHide = !playerObjectHide
             playerObject.stopped =playerObjectHide
+            playerObject.airRes = !playerObject.airRes
             //playerObject.stop()
         }
 
