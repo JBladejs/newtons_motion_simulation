@@ -9,62 +9,41 @@ import kotlin.system.exitProcess
 
 
 class GameScreen(private val game: NewtonGame) : Screen {
-    private var dt = 2f   //Prędkość gry
+    private var dt = 2f
     private val playerObject = MovingObject(15.0f, Color(255, 0, 0), Color(0, 255, 0), 50f, 50f)
-    private val followingObject = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
-    private val target = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
+    private var followingObject : MovingObject? = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
+    private var target : TargetZone? = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
     private val rotationSpeed = 2.5f
 
-
-    //Boolean do wyłączania obiektów w grze
-    private var playerObjectHide: Boolean = false
-    private var followingObjectHide: Boolean = false
-    private var targetHide: Boolean = false
-
-
     init {
-        followingObject.constantSpeed = 1f
+        followingObject?.constantSpeed = 1f
     }
 
     private fun update() {
-
-        playerObject.stopped = playerObjectHide
-        followingObject.stopped = followingObjectHide
         playerObject.move(dt)
-        followingObject.move(dt)
+        followingObject?.move(dt)
 
-        //wykrywanie kolizji środka pilki z polem docelowym
-        if (target.contains(playerObject.x, playerObject.y) && !targetHide) {
-            target.color = Color(0, 255, 0)
+        if (target != null && target!!.contains(playerObject.x, playerObject.y)) {
+            target!!.color = Color(0, 255, 0)
             playerObject.stop()
         }
-        followingObject.rotation = 180f * atan2(playerObject.x - followingObject.x, playerObject.y - followingObject.y) / PI
-        //println(followingObject.rotation)
+
+        if (followingObject != null) followingObject!!.rotation = 180f * atan2(playerObject.x - followingObject!!.x, playerObject.y - followingObject!!.y) / PI
 
         if (Gdx.input.isKeyPressed(W)) playerObject.increaseSpeed()
         if (Gdx.input.isKeyPressed(S)) playerObject.decreaseSpeed()
         if (Gdx.input.isKeyPressed(A)) playerObject.rotation -= rotationSpeed
         if (Gdx.input.isKeyPressed(D)) playerObject.rotation += rotationSpeed
 
-        if (Gdx.input.isKeyJustPressed(NUMPAD_1))
-        {
-            playerObjectHide = !playerObjectHide
-            playerObject.stopped =playerObjectHide
-            playerObject.airRes = !playerObject.airRes
-            //playerObject.stop()
+        if (Gdx.input.isKeyJustPressed(NUMPAD_0)) playerObject.gravityOn = !playerObject.gravityOn
+        if (Gdx.input.isKeyJustPressed(NUMPAD_1)) target = if (target != null) null
+        else TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
+        if (Gdx.input.isKeyJustPressed(NUMPAD_2)) playerObject.resistanceOn = !playerObject.resistanceOn
+        if (Gdx.input.isKeyJustPressed(NUMPAD_3)) {
+            followingObject = if (followingObject != null) null
+                else MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
+            followingObject?.constantSpeed = 1f
         }
-
-        if (Gdx.input.isKeyJustPressed(NUMPAD_2))
-        {
-            followingObjectHide = !followingObjectHide
-            followingObject.stop()
-        }
-
-        if (Gdx.input.isKeyJustPressed(NUMPAD_3))
-        {
-            targetHide = !targetHide
-        }
-
 
         if (Gdx.input.isKeyJustPressed(ESCAPE))
             exitProcess(1)
@@ -75,8 +54,8 @@ class GameScreen(private val game: NewtonGame) : Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         with(game.renderer) {
             begin()
-            if(!targetHide) target.render(this)
-            if(!followingObjectHide)followingObject.render(this)
+            target?.render(this)
+            followingObject?.render(this)
             playerObject.render(this)
             end()
         }
