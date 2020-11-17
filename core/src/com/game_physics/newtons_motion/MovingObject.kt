@@ -20,8 +20,10 @@ class MovingObject(private val radius: Float, private val color1: Color, private
     var stopped = false
     var resistanceOn = true
     var gravityOn = true
+    var asymetrical = true
 
     companion object {
+        const val rotationSpeed = 2.5f
         const val gravity = 0.03f
         const val flexibility = 0.2f   //strata prędkości od odbicia się od ściany (procentowa 1 - 100%    0.5 - 50%)
         const val resistance = 0.01f
@@ -35,22 +37,22 @@ class MovingObject(private val radius: Float, private val color1: Color, private
         }
 
         x += vx * dt
-        y += vy * dt //- 0.5f * gravity * dt * dt
+        y += vy * dt
 
         if (!stopped && constantSpeed == null) {
             if (resistanceOn) {
                 vx *= (1 - resistance)
                 vy *= (1 - resistance)
             }
-            if (gravityOn) vy -= gravity * dt
+            if (gravityOn && y - radius > 0) vy -= gravity * dt
         }
 
-        if (x - radius < 0 || x + radius > Gdx.graphics.width) {
+        if (x - radius <= 0 || x + radius >= Gdx.graphics.width) {
             x = if (x - radius < 0) radius
             else Gdx.graphics.width - radius
             vx *= (-1 + flexibility)
         }
-        if (y - radius < 0 || y + radius > Gdx.graphics.height) {
+        if (y - radius <= 0 || y + radius >= Gdx.graphics.height) {
             y = if (y - radius < 0) radius
             else Gdx.graphics.height - radius
             vy *= (-1 + flexibility)
@@ -60,14 +62,30 @@ class MovingObject(private val radius: Float, private val color1: Color, private
 
     fun increaseSpeed() {
         if (stopped) return
-        vx += sin(rotation * PI / 180f) * speed
-        vy += cos(rotation * PI / 180f) * speed
+        if (asymetrical) {
+            vx += sin(rotation * PI / 180f) * speed
+            vy += cos(rotation * PI / 180f) * speed
+        } else vy += speed
     }
 
     fun decreaseSpeed() {
         if (stopped) return
-        vx -= sin(rotation * PI / 180f) * speed
-        vy -= cos(rotation * PI / 180f) * speed
+        if (asymetrical) {
+            vx -= sin(rotation * PI / 180f) * speed
+            vy -= cos(rotation * PI / 180f) * speed
+        } else vy -= speed
+    }
+
+    fun rotateLeft() {
+        if (stopped) return
+        if (asymetrical) rotation -= rotationSpeed
+        else vx -= speed
+    }
+
+    fun rotateRight() {
+        if (stopped) return
+        if (asymetrical) rotation += rotationSpeed
+        else vx += speed
     }
 
     fun stop() {
@@ -80,13 +98,15 @@ class MovingObject(private val radius: Float, private val color1: Color, private
         with(renderer) {
             set(ShapeRenderer.ShapeType.Filled)
             identity()
-            setColor(color1)
             translate(x, y, 0f)
-            rotate(0f, 0f, -1f, rotation)
+            if (asymetrical) rotate(0f, 0f, -1f, rotation)
+            setColor(color1)
             circle(0f, 0f, radius)
-            setColor(color2)
-            triangle(-radius, 0f, radius, 0f, 0f, radius)
-            rotate(0f, 0f, 1f, rotation)
+            if (asymetrical) {
+                setColor(color2)
+                triangle(-radius, 0f, radius, 0f, 0f, radius)
+                rotate(0f, 0f, 1f, rotation)
+            }
             translate(-x, -y, 0f)
         }
     }

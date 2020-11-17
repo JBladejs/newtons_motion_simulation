@@ -13,7 +13,6 @@ class GameScreen(private val game: NewtonGame) : Screen {
     private val playerObject = MovingObject(15.0f, Color(255, 0, 0), Color(0, 255, 0), 50f, 50f)
     private var followingObject : MovingObject? = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
     private var target : TargetZone? = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
-    private val rotationSpeed = 2.5f
 
     init {
         followingObject?.constantSpeed = 1f
@@ -32,8 +31,8 @@ class GameScreen(private val game: NewtonGame) : Screen {
 
         if (Gdx.input.isKeyPressed(W)) playerObject.increaseSpeed()
         if (Gdx.input.isKeyPressed(S)) playerObject.decreaseSpeed()
-        if (Gdx.input.isKeyPressed(A)) playerObject.rotation -= rotationSpeed
-        if (Gdx.input.isKeyPressed(D)) playerObject.rotation += rotationSpeed
+        if (Gdx.input.isKeyPressed(A)) playerObject.rotateLeft()
+        if (Gdx.input.isKeyPressed(D)) playerObject.rotateRight()
 
         if (Gdx.input.isKeyJustPressed(NUMPAD_0)) playerObject.gravityOn = !playerObject.gravityOn
         if (Gdx.input.isKeyJustPressed(NUMPAD_1)) target = if (target != null) null
@@ -44,6 +43,7 @@ class GameScreen(private val game: NewtonGame) : Screen {
                 else MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
             followingObject?.constantSpeed = 1f
         }
+        if (Gdx.input.isKeyJustPressed(NUMPAD_4)) playerObject.asymetrical = !playerObject.asymetrical
 
         if (Gdx.input.isKeyJustPressed(ESCAPE))
             exitProcess(1)
