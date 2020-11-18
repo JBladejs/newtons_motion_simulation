@@ -14,7 +14,7 @@ class GameScreen(private val game: NewtonGame) : Screen {
     private var followingObject : MovingObject? = followingObjectInit()
     private var target : TargetZone? = targetInit()
 
-    private fun followingObjectInit(): MovingObject = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f, constantSpeed = 1f)
+    private fun followingObjectInit(): MovingObject = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), RNG.nextX(5f), RNG.nextY(5f), constantSpeed = 1f)
     private fun targetInit(): TargetZone = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
 
     private fun update() {
