@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils.*
 
-class MovingObject(private val radius: Float, private val color1: Color, private val color2: Color, x: Float = 0.0f, y: Float = 0.0f, private var vx: Float = 0.0f, private var vy: Float = 0.0f) {
+class MovingObject(private val radius: Float, private val color1: Color, private val color2: Color, x: Float = 0.0f, y: Float = 0.0f,
+                   private var vx: Float = 0.0f, private var vy: Float = 0.0f, private var constantSpeed: Float? = null) {
     var x = x
         private set
     var y = y
@@ -16,7 +17,7 @@ class MovingObject(private val radius: Float, private val color1: Color, private
             while (angle < 0f) angle += 360f
             field = angle
         }
-    var constantSpeed: Float? = null
+
     var stopped = false
     var resistanceOn = true
     var gravityOn = true

@@ -11,12 +11,11 @@ import kotlin.system.exitProcess
 class GameScreen(private val game: NewtonGame) : Screen {
     private var dt = 2f
     private val playerObject = MovingObject(15.0f, Color(255, 0, 0), Color(0, 255, 0), 50f, 50f)
-    private var followingObject : MovingObject? = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
-    private var target : TargetZone? = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
+    private var followingObject : MovingObject? = followingObjectInit()
+    private var target : TargetZone? = targetInit()
 
-    init {
-        followingObject?.constantSpeed = 1f
-    }
+    private fun followingObjectInit(): MovingObject = MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f, constantSpeed = 1f)
+    private fun targetInit(): TargetZone = TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
 
     private fun update() {
         playerObject.move(dt)
@@ -35,14 +34,9 @@ class GameScreen(private val game: NewtonGame) : Screen {
         if (Gdx.input.isKeyPressed(D)) playerObject.rotateRight()
 
         if (Gdx.input.isKeyJustPressed(NUMPAD_0)) playerObject.gravityOn = !playerObject.gravityOn
-        if (Gdx.input.isKeyJustPressed(NUMPAD_1)) target = if (target != null) null
-        else TargetZone(Color(255, 0, 0), RNG.nextX(25f), RNG.nextY(25f), 50f, 50f)
+        if (Gdx.input.isKeyJustPressed(NUMPAD_1)) target = if (target != null) null else targetInit()
         if (Gdx.input.isKeyJustPressed(NUMPAD_2)) playerObject.resistanceOn = !playerObject.resistanceOn
-        if (Gdx.input.isKeyJustPressed(NUMPAD_3)) {
-            followingObject = if (followingObject != null) null
-                else MovingObject(10.0f, Color(0, 0, 255), Color(0, 255, 0), 150f, 150f)
-            followingObject?.constantSpeed = 1f
-        }
+        if (Gdx.input.isKeyJustPressed(NUMPAD_3)) followingObject = if (followingObject != null) null else followingObjectInit()
         if (Gdx.input.isKeyJustPressed(NUMPAD_4)) playerObject.asymetrical = !playerObject.asymetrical
 
         if (Gdx.input.isKeyJustPressed(ESCAPE))
